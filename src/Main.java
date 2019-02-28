@@ -12,7 +12,7 @@ public class Main {
         ReadInput r = new ReadInput("./src/a_example.txt");
         r.arrayFromFile();
         r.deleteNulls();
-        System.out.println(Arrays.deepToString((r.resultList)));
+//        System.out.println(Arrays.deepToString((r.resultList)));
         System.out.println("MAP:" + tagMap.toString());
 
         Photo[] photoList = r.toPhoto();
