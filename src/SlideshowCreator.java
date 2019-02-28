@@ -1,4 +1,5 @@
 import javax.print.DocFlavor;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +18,26 @@ public class SlideshowCreator {
         this.tagMap = tagMap;
         this.nbPhotos = Integer.parseInt(allPhotos[0][0]);
     }
+
+    public void verticalMatch() {
+        ArrayList<String[]> verticals = new ArrayList<>();
+        for (String[] photo : allPhotos) {
+            if (photo[1] == "V") {
+                verticals.add(photo);
+            }
+        }
+        bestVertical(verticals);
+    }
+
+    public void bestVertical(ArrayList<String[]> verticals) {
+        ArrayList<String[]> vertSlides;
+        for (int i = 0 ; i < verticals.size(); i = i+2) {
+            String[] arr = new String[2];
+//            arr[0] = {verticals.get(i),verticals.get(i+1)};
+//            vertSlides.add()
+        }
+    }
+
 
     /**
      * find the best match for this photo
