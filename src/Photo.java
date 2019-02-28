@@ -29,7 +29,7 @@ public class Photo {
         if (in[1] == "H"){ horizontal = true;}
         else horizontal = false;
         tagCount = Integer.parseInt(in[2]);
-        tags = Arrays.copyOfRange(in, 3, tagCount + 3);
+        tags = sortStringBubble(Arrays.copyOfRange(in, 3, tagCount + 3));
 }
 
 public int compare(Photo photo2){
@@ -58,4 +58,29 @@ public int compare(Photo photo2){
     }
     return Math.min(common, Math.min(only1, only2));
 }
+
+
+    private static String[] sortStringBubble( String  in[ ] ) {
+        String[] x = in;
+        int j;
+        boolean flag = true;  // will determine when the sort is finished
+        String temp;
+
+        while ( flag )
+        {
+            flag = false;
+            for ( j = 0;  j < x.length - 1;  j++ )
+            {
+                if ( x [ j ].compareToIgnoreCase( x [ j+1 ] ) > 0 )
+                {                                             // ascending sort
+                    temp = x [ j ];
+                    x [ j ] = x [ j+1];     // swapping
+                    x [ j+1] = temp;
+                    flag = true;
+                }
+            }
+        }
+
+        return x;
+    }
 }
