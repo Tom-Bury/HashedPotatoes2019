@@ -32,7 +32,14 @@ public class Photo {
         tags = sortStringBubble(Arrays.copyOfRange(in, 3, tagCount + 3));
 }
 
-public int compare(Photo photo2){
+    /**
+     *
+     * @param photo2
+     * @return result[0] = only1;
+     *     result[1] = only2;
+     *     result[2] = common;
+     */
+    public int[] compareFull(Photo photo2){
     int common = 0;
     int only1 = 0;
     int only2 = 0;
@@ -71,10 +78,22 @@ public int compare(Photo photo2){
         itr2.next();
         only2 ++;
     }
-    System.out.println("only1 : " + only1 + "only2 : " + only2 + " common: " + common);
-    return Math.min(common, Math.min(only1, only2));
+    //System.out.println("only1 : " + only1 + "only2 : " + only2 + " common: " + common);
+    int [] result = new int[2];
+    result[0] = only1;
+    result[1] = only2;
+    result[2] = common;
+    return result;
 }
 
+    public int nbCommons(Photo photo2){
+        return compareFull(photo2)[2];
+    }
+
+    public int compare(Photo photo2){
+        int [] a = compareFull(photo2);
+        return Math.min(a[0], Math.min(a[1], a[2]));
+    }
 
     private static String[] sortStringBubble( String  in[ ] ) {
         String[] x = in;
