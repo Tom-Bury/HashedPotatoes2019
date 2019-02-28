@@ -8,10 +8,15 @@ public class ReadInput {
 
     public ReadInput(String path) {
         inputFile = new File(path);
+        try {
+            arrayFromFile();
+        } catch (Exception e) {
+            System.err.println(e);
+        }
     }
 
     private File inputFile;
-    private String[][] resultList;
+    private static String[][] resultList;
     private static Map<String, ArrayList<Integer>> tagMap = new HashMap<>();
 
     public void arrayFromFile() throws FileNotFoundException {
@@ -75,22 +80,25 @@ public class ReadInput {
 
     public static void main(String[] args) throws FileNotFoundException {
         ReadInput r = new ReadInput("./src/b_lovely_landscapes.txt");
-        String[][] result = r.arrayFromFile();
-        System.out.println("MAP:" + tagMap.toString());
-        System.out.println("RESULT: \n" + Arrays.deepToString(result));
-        String[][] processedResult = deleteNulls(result);
+        System.out.println("MAP:" + r.tagMap.toString());
+        System.out.println("RESULT: \n" + Arrays.deepToString(resultList));
+        //String[][] processedResult = deleteNulls(result);
         //System.out.println(Arrays.deepToString(processedResult));
 
 
-        String[] photo1 = {"1", "H", "3", "cat", "beach", "sun"};
-        String[] photo2 = {"0", "H", "21", "tr5fv", "t99tm", "t5nnd", "tj4f", "twzgl", "t6zkl", "tcz3g", "tf5wv", "tv1h01",
-                "tv7zt", "t5xl1", "th8wv", "tkp5g", "tb5p6", "tzdr4", "t111w", "tc2j5", "t1c76", "tsmcf", "t2hzq", "tbj57"};
-        SlideshowCreator creator = new SlideshowCreator(tagMap);
-        System.out.println("Best match= " + creator.match(photo2));
+//        String[] photo1 = {"1", "H", "3", "cat", "beach", "sun"};
+//        String[] photo2 = {"0", "H", "21", "tr5fv", "t99tm", "t5nnd", "tj4f", "twzgl", "t6zkl", "tcz3g", "tf5wv", "tv1h01",
+//                "tv7zt", "t5xl1", "th8wv", "tkp5g", "tb5p6", "tzdr4", "t111w", "tc2j5", "t1c76", "tsmcf", "t2hzq", "tbj57"};
+        SlideshowCreator creator = new SlideshowCreator(r.resultList, r.tagMap);
+//        System.out.println("Best match= " + creator.match(photo2));
+//
+////        System.out.println("Photo 0 " + Arrays.deepToString(photo2));
+//        System.out.println("Photo 18144 " + Arrays.deepToString(result[18144]));
 
-        System.out.println("Photo 0 " + Arrays.deepToString(photo2));
-        System.out.println("Photo 18144 " + Arrays.deepToString(result[18144]));
-
+        ArrayList<Integer> slideShow = creator.slideshow();
+        System.out.println("SLIDESHOW\n" + slideShow.toString() );
+        Output op = new Output(slideShow);
+        op.writeToFile("lovelyLandscapesSolution.txt");
 
     }
 }

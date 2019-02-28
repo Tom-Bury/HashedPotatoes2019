@@ -11,6 +11,13 @@ public class SlideshowCreator {
     int nbPhotos;
     String[] lastSlide;
 
+
+    public SlideshowCreator(String[][] allPhotos, Map<String, ArrayList<Integer>> tagMap) {
+        this.allPhotos = allPhotos;
+        this.tagMap = tagMap;
+        this.nbPhotos = Integer.parseInt(allPhotos[0][0]);
+    }
+
     /**
      * find the best match for this photo
      * @param photo
@@ -56,15 +63,19 @@ public class SlideshowCreator {
         return bestID;
     }
 
-    private void slideshow() {
-        int id = 0;
+    public ArrayList<Integer> slideshow() {
+        int id = 1;
         ArrayList<Integer> slideShow = new ArrayList<>();
-        slideShow.add(0);
+        slideShow.add(1);
+        usedIDs.add(1);
         while (usedIDs.size() < nbPhotos) {
             int nextID = match(allPhotos[id]);
             slideShow.add(nextID);
             id = nextID;
+            System.out.println(usedIDs.size());
         }
+
+        return slideShow;
     }
 
 }
