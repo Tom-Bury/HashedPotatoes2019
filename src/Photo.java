@@ -32,33 +32,68 @@ public class Photo {
         tags = sortStringBubble(Arrays.copyOfRange(in, 3, tagCount + 3));
 }
 
-public int compare(Photo photo2){
+    /**
+     *
+     * @param photo2
+     * @return result[0] = only1;
+     *     result[1] = only2;
+     *     result[2] = common;
+     */
+    public int[] compareFull(Photo photo2){
     int common = 0;
     int only1 = 0;
     int only2 = 0;
     String [] tags2 = photo2.getTags();
-    List<String> tagList = Arrays.asList(tags2);
-    Iterator<String> itr = tagList.iterator();
-    String currentTag2 = itr.next();
+    List<String> tagList1 = Arrays.asList(tags);
+    Iterator<String> itr1 = tagList1.iterator();
+    List<String> tagList2 = Arrays.asList(tags2);
+    Iterator<String> itr2 = tagList2.iterator();
+
+    String currentTag1 = itr1.next();
+    String currentTag2 = itr2.next();
     int c;
-    for (String tag : tags){
-        c = tag.compareTo(currentTag2);
+    boolean endOf2 = false;
+    while (true){
+        c = currentTag1.compareTo(currentTag2);
             if (c==0){
-                common += 1; currentTag2 = itr.next();
+                common += 1;
+                if (itr1.hasNext()){currentTag1 = itr1.next();}
+                else break;
+                if(itr2.hasNext()){currentTag2 = itr2.next();}
+                else endOf2 = true;
             }
-            else if (c > 0 && itr.hasNext()){
-                currentTag2 = itr.next();
-                only2 +=1;
+            else if (c > 0 && itr2.hasNext()){
+                currentTag2 = itr2.next();
+                only2 += 1;
             }
-            else only1 ++;
+            else {
+                only1 ++;
+                if (itr1.hasNext()) currentTag1 = itr1.next();
+                else break;
+            }
     }
 
-    while (itr.hasNext()){
+    if (endOf2 == false) only2 ++;
+    while (itr2.hasNext()){
+        itr2.next();
         only2 ++;
     }
-    return Math.min(common, Math.min(only1, only2));
+    //System.out.println("only1 : " + only1 + "only2 : " + only2 + " common: " + common);
+    int [] result = new int[2];
+    result[0] = only1;
+    result[1] = only2;
+    result[2] = common;
+    return result;
 }
 
+    public int nbCommons(Photo photo2){
+        return compareFull(photo2)[2];
+    }
+
+    public int compare(Photo photo2){
+        int [] a = compareFull(photo2);
+        return Math.min(a[0], Math.min(a[1], a[2]));
+    }
 
     private static String[] sortStringBubble( String  in[ ] ) {
         String[] x = in;
@@ -82,5 +117,13 @@ public int compare(Photo photo2){
         }
 
         return x;
+    }
+
+    public String toString(){
+        String res = "id : " + id + " horizontal: " + horizontal +  " tags: ";
+        for (String tag: tags){
+            res += (tag + " , ");
+        }
+        return res;
     }
 }
