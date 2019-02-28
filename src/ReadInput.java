@@ -11,8 +11,8 @@ public class ReadInput {
     }
 
     private File inputFile;
-    private String[][] resultList;
-    private static Map<String, ArrayList<Integer>> tagMap = new HashMap<>();
+    public String[][] resultList;
+    public static Map<String, ArrayList<Integer>> tagMap = new HashMap<>();
 
     public void arrayFromFile() throws FileNotFoundException {
         Scanner s = new Scanner(inputFile); // new scanner for file
@@ -72,6 +72,14 @@ public class ReadInput {
         }
     }
 
+    public Photo[] toPhoto() {
+        int size = Integer.parseInt(resultList[0][0]);
+        Photo[] photoList = new Photo[size];
+        for (int i = 1; i<size; i++) {
+            photoList[i] = new Photo(resultList[i]);
+        }
+        return photoList;
+    }
 
     public static void main(String[] args) throws FileNotFoundException {
         ReadInput r = new ReadInput("./src/b_lovely_landscapes.txt");
