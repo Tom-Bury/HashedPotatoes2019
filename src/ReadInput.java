@@ -28,9 +28,21 @@ public class ReadInput {
 
     }
 
+    public static String[][] deleteNulls(String[][] list) {
+        int listLength = list.length;
+        for (int i = 0; i<listLength; i++) {
+            if (list[i] == null) {
+                return Arrays.copyOfRange(list,0,i);
+            }
+        }
+        return list;
+    }
+
     public static void main(String[] args) throws FileNotFoundException {
         ReadInput r = new ReadInput("./src/a_example.txt");
         String[][] result = r.arrayFromFile();
         System.out.println(Arrays.deepToString(result));
+        String[][] processedResult = deleteNulls(result);
+        System.out.println(Arrays.deepToString(processedResult));
     }
 }
