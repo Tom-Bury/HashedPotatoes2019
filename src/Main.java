@@ -16,7 +16,14 @@ public class Main {
         System.out.println("MAP:" + tagMap.toString());
 
         Photo[] photoList = r.toPhoto();
-        // Roep hier de order methode op voor elk photo object
+
+        System.out.println(Arrays.deepToString(photoList));
+        Photo photo1 = photoList[1];
+        Photo photo2 = photoList[3];
+        System.out.println(photo1.toString() + " photo 2 : " + photo2.toString());
+        int result1 = photo1.compare(photo2);
+        int result2 = photo2.compare(photo1);
+        System.out.println("photo1 compared to photo2: " + result1 + " photo2 compare to photo1 " + result2);
 
     }
 }
