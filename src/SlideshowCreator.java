@@ -1,16 +1,21 @@
+import javax.print.DocFlavor;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SlideshowCreator {
+    String[][] allPhotos;
     Map<String, ArrayList<Integer>> tagMap;
     ArrayList<Integer> usedIDs = new ArrayList<>();
+    int nbPhotos;
+    String[] lastSlide;
 
     /**
      * find the best match for this photo
      * @param photo
      */
-    private int match(String[] photo) {
+    public int match(String[] photo) {
         int goal = Integer.parseInt(photo[2])/2;
         int bestCount = Integer.MAX_VALUE;
         int bestID = 0;
@@ -19,7 +24,7 @@ public class SlideshowCreator {
         while (i < photo.length) {
             ArrayList<Integer> list = tagMap.get(photo[i]);
             for (int id : list) {
-                if (id != Integer.parseInt(photo[0])) {
+                if (id != Integer.parseInt(photo[0]) && !usedIDs.contains(id)) {
                     if (count.containsKey(id)) {
                         int curr = count.get(id);
                         curr += 1;
@@ -30,6 +35,13 @@ public class SlideshowCreator {
                     }
                 }
             }
+            i++;
+        }
+
+        if (count.isEmpty()) {
+            int newID =  Integer.parseInt(photo[0]) + 1;
+            usedIDs.add(newID);
+            return newID;
         }
 
         for (int id : count.keySet()) {
@@ -39,7 +51,20 @@ public class SlideshowCreator {
             }
         }
 
+        usedIDs.add(bestID);
+        lastSlide = allPhotos[bestID];
         return bestID;
+    }
+
+    private void slideshow() {
+        int id = 0;
+        ArrayList<Integer> slideShow = new ArrayList<>();
+        slideShow.add(0);
+        while (usedIDs.size() < nbPhotos) {
+            int nextID = match(allPhotos[id]);
+            slideShow.add(nextID);
+            id = nextID;
+        }
     }
 
 }
