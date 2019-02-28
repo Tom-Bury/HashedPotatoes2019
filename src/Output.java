@@ -23,7 +23,7 @@ public class Output {
             for (int d : data) {
                 System.out.println("loopen");
                 fw.write("\r\n");
-                fw.write(Integer.toString(d));
+                fw.write(Integer.toString(d-1));
             }
 
             System.out.println("DONE");
