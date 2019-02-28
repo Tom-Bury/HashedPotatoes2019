@@ -11,19 +11,20 @@ public class ReadInput {
     }
 
     private File inputFile;
+    private String[][] resultList;
     private static Map<String, ArrayList<Integer>> tagMap = new HashMap<>();
 
-    public String[][] arrayFromFile() throws FileNotFoundException {
+    public void arrayFromFile() throws FileNotFoundException {
         Scanner s = new Scanner(inputFile); // new scanner for file
         String[][] fullList = new String[30][]; // the big list, has to have a fixed nb of rows. Need to remove that afterwards maybe?
         int index = 0;
         while (s.hasNextLine()) { // check for next line
             String[] tempArray = processLine(s.nextLine(),index); // process the line into an array
             fullList[index] = tempArray; // add to the bigger array
-            toMap(tempArray);
+            toMap(tempArray); // sort tags
             index++; // increment index
         }
-        return fullList;
+        resultList = fullList;
     }
 
     public String[] processLine(String l, int index) {
@@ -61,27 +62,23 @@ public class ReadInput {
         return result;
     }
 
-    public static String[][] deleteNulls(String[][] list) {
-        int listLength = list.length;
+    public void deleteNulls() {
+        int listLength = resultList.length;
         for (int i = 0; i<listLength; i++) {
-            if (list[i] == null) {
-                return Arrays.copyOfRange(list,0,i);
+            if (resultList[i] == null) {
+                resultList = Arrays.copyOfRange(resultList,0,i);
+                break;
             }
         }
-        return list;
     }
 
 
-//    public static Photo convertToPhoto() {
-//        return null;
-//    }
 
     public static void main(String[] args) throws FileNotFoundException {
         ReadInput r = new ReadInput("./src/a_example.txt");
-        String[][] result = r.arrayFromFile();
+        r.arrayFromFile();
+        r.deleteNulls();
+        System.out.println(Arrays.deepToString((r.resultList)));
         System.out.println("MAP:" + tagMap.toString());
-        System.out.println(Arrays.deepToString(result));
-        String[][] processedResult = deleteNulls(result);
-        System.out.println(Arrays.deepToString(processedResult));
     }
 }
