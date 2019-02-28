@@ -7,7 +7,7 @@ public class ClaraDeSmet {
     public static void main(String [] args) throws FileNotFoundException {
         System.out.println("Hash code here we come!");
         System.out.println("This is a test." );
-        int[][] result = intFromTxt(new File ("./src/a_example.in"));
+        int[][] result = intFromTxt(new File ("./src/a_example.in")) ;
         System.out.println(Arrays.deepToString(result));
     }
 
